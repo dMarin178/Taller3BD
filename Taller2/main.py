@@ -1,8 +1,7 @@
 from __future__ import unicode_literals
-import psycopg2
-from prompt_toolkit import prompt
-from prompt_toolkit import print_formatted_text as print
-from prompt_toolkit.shortcuts import message_dialog
+import time
+from conexion import conexionEjemplo
+from conexion import conectar()
 
 def menu():
     print("Bienvenido a El Bruto \n")
@@ -13,12 +12,7 @@ def menu():
 def IniciarSesion(nick,password) :
     inicio= False
     perfil = None
-    try:
-        # Conectarse a la base de datos
-        conn = psycopg2.connect(host="localhost", database="taller2", user="postgres",password="postgres")
-        # Abrir un cursor para realizar operaciones sobre la base de datos
-        cur = conn.cursor()
-        # Ejecutamos la consulta para obetener los datos de la tabla Administrador
+        cur = conectar()
         cur.execute("select nick,contraseña from administrador ")
         # recorremos el cursor en la tabla de administrador
         for administrador in cur :
@@ -46,24 +40,16 @@ def IniciarSesion(nick,password) :
             conn.close()
             return perfil
 
-def RegistrarUsuario(nick,nombres,apellidoP,apellidoM,correo,password,pais):
-    inicio=False;
-    try:
-        # Conectarse a la base de datos
-        conn = psycopg2.connect(host="localhost", database="taller2", user="postgres",password="postgres")
-        # Abrir un cursor para realizar operaciones sobre la base de datos
-        cur = conn.cursor()
-        # Ejecutamos la consulta para obetener los datos de la tabla Jugador
-        cur.execute("""
-            INSERT into Jugador (nick,nombres,apellidoP,apellidoM,correo,contraseña,pais)
-            VALUES (%s, %s, %s, %s, %s, %s, %s);""", (nick,nombres,apellidoP,apellidoM,correo,password,pais) )
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            conn.commit()
-            conn.close()
+def RegistrarUsuario(datosDeRegistro):
+    data = datosDeRegistro
+    conn = conectar()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT into Jugador (nick,nombres,apellidoP,apellidoM,correo,contraseña,pais)
+        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (data[0],data[1],data[2],data[3],data[4],data[5],data[6]) )
+    cur.close()
+    conn.commit()
+    conn.close()
 
 def menuAdmin(nick):
     print("Este es el menu del administrador \n")
@@ -71,19 +57,6 @@ def menuAdmin(nick):
 def menuJugador(nick):
     print("Este es el menu del jugador \n ")
 
-def emailVerification():
-    isEmail = False
-    while(isEmail == False):
-        print("Ingrese su correo :")
-        correo = input()
-        chars = list(correo)
-        for i in chars:
-            if(i)== "@":
-                isEmail = True
-        if isEmail == False :
-            print("Debe ingresar un correo ej: example@gmail.com ")        
-    return correo        
-        
 def principal() :
     opcion = -1
     while opcion != "0" :
@@ -121,7 +94,26 @@ def principal() :
             print("Adios , nos vemos pronto para mas lucha ")
         else :
             print("Ingrese una opcion valida")
+ 
+def getAvatar(nick):
+    try:
+        conn = conectar()
+        cur = conn.cursor()
+        cur.execute("select * from avatar")
+        found = False
+        for avatar in cur :
+            if(avatar[0]==nick):
+                found = True
+                atributes = [avatar[0],avatar[1],avatar[2],avatar[3],avatar[4]] 
+                return atributes     
+        if(found==False):
+            print("No se encontro al usuario")
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
 
-message_dialog(
-    title='Example dialog window',
-    text='Do you want to continue?\nPress ENTER to quit.').run()
+conexionEjemplo()
+

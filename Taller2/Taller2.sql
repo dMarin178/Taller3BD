@@ -16,7 +16,7 @@ create table Administrador(nick varchar(30) not null primary key
 					,contraseña varchar(30) not null
 					,pais varchar(30) not null);
 
-create table Avatar(nick varchar(30) references usuario(nick)
+create table Avatar(nick varchar(30) references jugador(nick)
 				   ,ataque integer not null
 				   ,velocidad integer not null
 				   ,vida integer not null

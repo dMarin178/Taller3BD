@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from configparser import ConfigParser
  
 def config(archivo='bd.ini', seccion='postgresql'):
@@ -13,3 +14,4 @@ def config(archivo='bd.ini', seccion='postgresql'):
             db[param[0]] = param[1]
     else:
         raise Exception('Secccion {0} no encontrada en el archivo {1}'.format(seccion, archivo))
+    return db
