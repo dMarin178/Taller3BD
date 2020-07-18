@@ -12,7 +12,7 @@ def IniciarSesion(nick,password) :
     perfil = None
     conn = conectar()
     cur = conn.cursor()
-    cur.execute("select nick,contraseña from administrador ")
+    cur.execute("SELECT nick,contraseña FROM administrador ")
     # recorremos el cursor en la tabla de administrador
     for administrador in cur :
         if(administrador[0]==nick):
@@ -30,6 +30,7 @@ def IniciarSesion(nick,password) :
                     print("\n Bienvenido "+nick+"\n")
                     inicio=True
                     perfil = "jugador"
+    cur.close()
     conn.close()                    
     return perfil
 
@@ -88,5 +89,3 @@ def principal() :
             print("Adios , nos vemos pronto para mas lucha ")
         else :
             print("Ingrese una opcion valida")
-
-principal()
