@@ -5,11 +5,6 @@ from conexion import conectar
 from inputs import inputDatosRegistro
 from inputs import inputNewNick
 from inputs import inputEmail
-from menu import menu
-
-conexionEjemplo()
-
-
 
 #devuelve el perfil(admin o jugador) si no lo encuentra devulve None
 def IniciarSesion(nick,password) :
@@ -72,7 +67,6 @@ def getAvatar(nick):
 def principal() :
     opcion = -1
     while opcion != "0" :
-        menu()
         print("Ingrese una opcion : ")
         opcion = input()
         if opcion == "1" : 
