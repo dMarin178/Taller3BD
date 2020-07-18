@@ -5,14 +5,11 @@ from conexion import conectar
 from inputs import inputDatosRegistro
 from inputs import inputNewNick
 from inputs import inputEmail
+from menu import menu
 
 conexionEjemplo()
 
-def menu():
-    print("Bienvenido a El Bruto \n")
-    print("1) Iniciar sesion")
-    print("2) Registrarse")
-    print("0) Salir")
+
 
 #devuelve el perfil(admin o jugador) si no lo encuentra devulve None
 def IniciarSesion(nick,password) :
@@ -25,7 +22,7 @@ def IniciarSesion(nick,password) :
     for administrador in cur :
         if(administrador[0]==nick):
             if(administrador[1]==password):
-                #print("\n Bienvenido "+nick+"\n")
+                print("\n Bienvenido "+nick+"\n")
                 inicio=True
                 perfil = "administrador"
     #si no se encuentra ningun administrador con el nick correspondiente,
@@ -35,7 +32,7 @@ def IniciarSesion(nick,password) :
         for jugador in cur:
             if(jugador[0]==nick):
                 if(jugador[1]==password):
-                    #print("\n Bienvenido "+nick+"\n")
+                    print("\n Bienvenido "+nick+"\n")
                     inicio=True
                     perfil = "jugador"
     conn.close()                    
