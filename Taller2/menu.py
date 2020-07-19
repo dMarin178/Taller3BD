@@ -3,7 +3,13 @@ from main import IniciarSesion
 from tkinter.messagebox import showinfo
 from functools import partial
 from sesion import menuJugador
+<<<<<<< HEAD
 from main import pop_up_msg
+=======
+from registro import registro
+
+from tkinter import *
+>>>>>>> 8cf7f615e0989110b41568f212d0315c1f89a615
 
 def menu():
     window = tk.Tk()
@@ -30,11 +36,21 @@ def menu():
     inicioSesion = tk.Button(text = "Iniciar sesion", command=loginSinParametros)
     inicioSesion.pack(pady=15)
 
-    Registrarse = tk.Button(text="Registrarse")
+    Registrarse = tk.Button(text="Registrarse", command=iniciarRegistro)
     Registrarse.pack(pady=20)
 
     window.mainloop()
 
+<<<<<<< HEAD
+=======
+def menuAdmin():
+    print("este es el menu del administrador")
+
+def iniciarRegistro():
+        print("iniciando registro")
+        registro()
+
+>>>>>>> 8cf7f615e0989110b41568f212d0315c1f89a615
 def login(nick,password):
     print(nick)
     print(password)
