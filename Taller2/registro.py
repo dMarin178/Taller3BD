@@ -1,45 +1,92 @@
 import tkinter as tk
 from tkinter.messagebox import showinfo
+from main import RegistrarUsuario
 
 def registro():
 
-    window = tk.Tk()
-    window.title("Registro de cuenta nueva ")
-    window.geometry("400x400")
-    #titulo del menu
-    window.configure(background = 'black')
+    ventanaRegistro = tk.Tk()
+    ventanaRegistro.title("Registro de cuenta nueva ")
+    ventanaRegistro.geometry("400x400")
+    ventanaRegistro.configure(background = 'black')
 
-    nickLabel = tk.Label(text="Ingrse su Nick",bg='black',fg='white')
+    nickLabel = tk.Label(ventanaRegistro, text="Ingrese su Nick",bg='black',fg='white')
     nickLabel.pack()
-    nickEntry = tk.Entry(window)
+    nickEntry = tk.Entry(ventanaRegistro)
     nickEntry.pack()
 
-    passLabel = tk.Label(text="Ingrese su Contraseña",bg='black',fg='white')
+    emailLabel = tk.Label(ventanaRegistro, text="Ingrese su correo electronico",bg='black',fg='white')
+    emailLabel.pack()
+    emailEntry = tk.Entry(ventanaRegistro)
+    emailEntry.pack()
+
+    passLabel = tk.Label(ventanaRegistro, text="Ingrese su Contraseï¿½a",bg='black',fg='white')
     passLabel.pack()
-    passEntry = tk.Entry(window,show ="*")
+    passEntry = tk.Entry(ventanaRegistro,show ="*")
     passEntry.pack()
 
-    pass2Label = tk.Label(text="Ingrese su Contraseña otra vez",bg='black',fg='white')
+    pass2Label = tk.Label(ventanaRegistro, text="Ingrese su Contraseï¿½a otra vez",bg='black',fg='white')
     pass2Label.pack()
-    pass2Entry = tk.Entry(window,show ="*")
+    pass2Entry = tk.Entry(ventanaRegistro,show ="*")
     pass2Entry.pack()
 
-    nombreLabel = tk.Label(text="Ingrese su nombre",bg='black',fg='white')
+    nombreLabel = tk.Label(ventanaRegistro, text="Ingrese su nombre",bg='black',fg='white')
     nombreLabel.pack()
-    nombreEntry = tk.Entry(window)
+    nombreEntry = tk.Entry(ventanaRegistro)
     nombreEntry.pack()
 
-    aPaternoLabel = tk.Label(text="Ingrese su apellido paterno",bg='black',fg='white')
+    aPaternoLabel = tk.Label(ventanaRegistro, text="Ingrese su apellido paterno",bg='black',fg='white')
     aPaternoLabel.pack()
-    aPaternoEntry = tk.Entry(window)
+    aPaternoEntry = tk.Entry(ventanaRegistro)
     aPaternoEntry.pack()
 
-    aMaternoLabel = tk.Label(text="Ingrese su apellido materno",bg='black',fg='white')
+    aMaternoLabel = tk.Label(ventanaRegistro, text="Ingrese su apellido materno",bg='black',fg='white')
     aMaternoLabel.pack()
-    aMaternoEntry = tk.Entry(window)
+    aMaternoEntry = tk.Entry(ventanaRegistro)
     aMaternoEntry.pack()
 
-    paisLabel = tk.Label(text="Pais",bg='black',fg='white')
+    paisLabel = tk.Label(ventanaRegistro, text="Pais",bg='black',fg='white')
     paisLabel.pack()
-    paisEntry = tk.Entry(window)
+    paisEntry = tk.Entry(ventanaRegistro)
     paisEntry.pack()
+
+    def passwordIguales(pass1,pass2):
+        if(pass1 == pass2):
+            return True
+        else:
+            return False
+
+    def pop_up_msg(mensaje):
+        win = tk.Toplevel()
+        win.wm_title("Mensaje")
+
+        l = tk.Label(win, text=mensaje)
+        l.grid(row=0, column=0)
+
+        b = tk.Button(win, text="Okay", command=win.destroy)
+        b.grid(row=1, column=0)
+
+    def confirmar():
+        if(passwordIguales(passEntry.get(),pass2Entry.get())):
+            listaDatos = []
+            listaDatos.append(nickEntry.get())
+            listaDatos.append(nombreEntry.get())
+            listaDatos.append(aPaternoEntry.get())
+            listaDatos.append(aMaternoEntry.get())
+            listaDatos.append(emailEntry.get())
+            listaDatos.append(passEntry.get())
+            listaDatos.append(paisEntry.get())
+            
+            RegistrarUsuario(listaDatos)
+        else:
+            pop_up_msg("Las contraseÃ±as deben coincidir")
+
+    botonConfirmar = tk.Button(ventanaRegistro, text = "Cofirmar registro", command=confirmar)
+    botonConfirmar.pack()
+
+    ventanaRegistro.mainloop()
+
+    
+
+    
+
+    
