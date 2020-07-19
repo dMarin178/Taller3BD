@@ -3,7 +3,7 @@ from main import IniciarSesion
 from tkinter.messagebox import showinfo
 from functools import partial
 from sesion import menuJugador
-
+from main import pop_up_msg
 
 def menu():
     window = tk.Tk()
@@ -35,32 +35,17 @@ def menu():
 
     window.mainloop()
 
-def menuAdmin():
-    print("este es el menu del administrador")
-
-
 def login(nick,password):
     print(nick)
     print(password)
     sesion = IniciarSesion(nick,password)
     if(sesion != None):
         if(sesion == "administrador"):
-            menuAdmin(nick)
+            print("Este es el menu del admin")
         else :
             menuJugador(nick)
     else: pop_up_msg(" Nombre o contraseña incorrecto ")
     return 0
-
-
-def pop_up_msg(mensaje):
-    win = tk.Toplevel()
-    win.wm_title("Window")
-
-    l = tk.Label(win, text=mensaje)
-    l.grid(row=0, column=0)
-
-    b = tk.Button(win, text="Okay", command=win.destroy)
-    b.grid(row=1, column=0)
 
 
 menu()

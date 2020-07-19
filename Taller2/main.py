@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 import time
+from tkinter.messagebox import showinfo
+import tkinter as tk
 from conexion import conexionEjemplo
 from conexion import conectar
 from inputs import inputDatosRegistro
@@ -46,12 +48,6 @@ def RegistrarUsuario(datosDeRegistro):
     conn.commit()
     conn.close()
 
-def menuAdmin(nick):
-    print("Este es el menu del administrador \n")
-
-def menuJugador(nick):
-    print("Este es el menu del jugador \n ")
-
 def getAvatar(nick):
     conn = conectar()
     cur = conn.cursor()
@@ -60,7 +56,7 @@ def getAvatar(nick):
     for avatar in cur :
         if(avatar[0]==nick):
             found = True
-            atributes = [avatar[0],avatar[1],avatar[2],avatar[3],avatar[4]] 
+            atributes = [avatar[0],avatar[1],avatar[2],avatar[3],avatar[4]]
             return atributes     
     if(found==False):
         print("No se encontro al avatar")
@@ -79,9 +75,9 @@ def principal() :
             if perfil == None :
                 print("Nick o contraseña incorrectos \n")
             elif perfil == "administrador" :
-                menuAdmin(nick)
+                print("Este es el menu del admin")
             else : 
-                menuJugador(nick)   
+                print("Este es el menu del jugador")  
         elif opcion == "2" :
             data = inputDatosRegistro()
             RegistrarUsuario(data)
@@ -89,3 +85,13 @@ def principal() :
             print("Adios , nos vemos pronto para mas lucha ")
         else :
             print("Ingrese una opcion valida")
+
+def pop_up_msg(mensaje):
+    win = tk.Toplevel()
+    win.wm_title("Window")
+
+    l = tk.Label(win, text=mensaje)
+    l.pack(pady=5)
+
+    b = tk.Button(win, text="Ok", command=win.destroy)
+    b.pack(pady=5)

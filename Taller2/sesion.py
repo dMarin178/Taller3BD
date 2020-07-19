@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter.messagebox import showinfo
 from functools import partial
-from main import getAvatar
 import tkinter.font as tkFont
+from Jugador import getAvatar
+from Jugador import report
+from main import pop_up_msg
 
 def menuJugador(nick):
     sesionJugador = tk.Tk()
@@ -31,18 +33,42 @@ def menuJugador(nick):
     ptosExp=tk.Label(sesionJugador,text="experiencia : "+str(avatar[3])+"/"+str(nextLvl(getNivel(avatar[3]))) ,bg='black',fg='white')
     ptosExp.pack(pady=5)
 
-    reportarJugador = tk.Button(sesionJugador ,text="Reportar jugador",command=reportPlayer())
+    reportarJugador = tk.Button(sesionJugador ,text="Reportar jugador",command=reportPlayer)
     reportarJugador.pack(pady=10)
 
     luchar= tk.Button(sesionJugador,text="Luchar")
     luchar.pack(pady=10)
 
-    cerrarSesion= tk.Button(sesionJugador,text="Cerrar sesion")
+    cerrarSesion= tk.Button(sesionJugador,text="Cerrar sesion",command=sesionJugador.destroy)
     cerrarSesion.pack(pady=10)
 
     sesionJugador.mainloop()
 
 def reportPlayer():
+    reportWindow = tk.Tk()
+    reportWindow.title("Reportar Jugador")
+    reportWindow.geometry("280x200")
+    reportWindow.configure(background = 'black')
+
+    reportText = tk.Label(reportWindow,text = 'Ingrese el nick del jugador que desea reportar ',bg='black', fg='white')
+    reportText.pack(pady=10)
+
+    reportEntry = tk.Entry(reportWindow)
+    reportEntry.pack(pady=5)
+
+    def reportSinParametros():
+        reportNick = reportEntry.get()
+        if report(reportNick) == False:
+            pop_up_msg("No se encontro al jugador. ")
+        else: pop_up_msg("Jugador reportado ")
+
+    reportButton = tk.Button(reportWindow, text='Reportar', command=reportSinParametros)
+    reportButton.pack(pady=10)
+
+    backButton = tk.Button(reportWindow,text="Volver", command=reportWindow.destroy)
+    backButton.pack(pady=10)
+    
+    reportWindow.mainloop()
 
 
 #devuelve el nivel que se encuentra el jugador
@@ -57,3 +83,4 @@ def getNivel(ptosExperiencia):
 def nextLvl(nivel):
     ptos=nivel*50+100
     return ptos
+
