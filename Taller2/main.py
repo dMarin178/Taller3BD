@@ -68,8 +68,8 @@ def RegistrarUsuario(datosDeRegistro):
     conn = conectar()
     cur = conn.cursor()
     cur.execute("""
-        INSERT into Jugador (nick,nombres,apellidoP,apellidoM,correo,contraseña,pais)
-        VALUES (%s, %s, %s, %s, %s, %s, %s);""", (data[0],data[1],data[2],data[3],data[4],data[5],data[6]) )
+        INSERT into Jugador (nick,nombres,apellidoP,apellidoM,correo,contraseña,pais,cantreportes, ban_s_n)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);""", (data[0],data[1],data[2],data[3],data[4],data[5],data[6],0, False) )
     cur.close()
     conn.commit()
     conn.close()
