@@ -3,10 +3,15 @@ from main import IniciarSesion
 from tkinter.messagebox import showinfo
 from functools import partial
 from sesion import menuJugador
+<<<<<<< HEAD
 from main import pop_up_msg
 from registro import registro
 from tkinter import *
 from sesion import getReportados
+=======
+from registro import registro
+
+>>>>>>> c2ec6cf655c296ebbe9da817d0c439158a6db595
 
 def menu():
     window = tk.Tk()
@@ -38,6 +43,12 @@ def menu():
 
     window.mainloop()
 
+<<<<<<< HEAD
+=======
+def menuAdmin():
+    print("este es el menu del administrador")
+
+>>>>>>> c2ec6cf655c296ebbe9da817d0c439158a6db595
 def iniciarRegistro():
         print("iniciando registro")
         registro()
