@@ -7,6 +7,7 @@ from conexion import conectar
 from inputs import inputDatosRegistro
 from inputs import inputNewNick
 from inputs import inputEmail
+import random
 
 #devuelve el perfil(admin o jugador) si no lo encuentra devulve None
 def IniciarSesion(nick,password) :
@@ -36,6 +37,31 @@ def IniciarSesion(nick,password) :
     conn.close()                    
     return perfil
 
+#Genera el avatar de un jugador dado su nick
+def generarAvatar(nick):
+    listaDatos = []
+
+    ataque = random.randint(1,3)
+    vida = random.randint(10,20)
+    velocidad = random.randint(1,10)
+
+    listaDatos.append(nick)
+    listaDatos.append(ataque)
+    listaDatos.append(velocidad)
+    listaDatos.append(vida)
+    listaDatos.append(0)
+
+    conn = conectar()
+    cur =conn.cursor()
+    cur.execute("""
+        INSERT INTO avatar (nick, ataque, velocidad, vida,ptosexp)
+        VALUES (%s,%s,%s,%s,%s);""",(listaDatos[0],listaDatos[1],listaDatos[2],listaDatos[3],listaDatos[4]) )
+    cur.close()
+    conn.commit()
+    conn.close()
+
+    print("creado el avatar" + nick + "\n")
+
 #Registra al usuario en la base de datos, recibe una lista con los datos a ingresar
 def RegistrarUsuario(datosDeRegistro):
     data = datosDeRegistro
@@ -48,10 +74,13 @@ def RegistrarUsuario(datosDeRegistro):
     conn.commit()
     conn.close()
 
+    print("creado el jugador " + data[0] + "\n")
+    generarAvatar(data[0])
+
 def getAvatar(nick):
     conn = conectar()
     cur = conn.cursor()
-    cur.execute("select * from avatar")
+    cur.execute("select * from avatar ")
     found = False
     for avatar in cur :
         if(avatar[0]==nick):

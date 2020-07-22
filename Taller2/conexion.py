@@ -7,11 +7,11 @@ def conexionEjemplo():
     conexion = None
     try:
         # Lectura de los parámetros de conexion
-        params = config()
+        #params = config()
  
         # Conexion al servidor de PostgreSQL
         print('Conectando a la base de datos PostgreSQL...')
-        conexion = psycopg2.connect(**params)
+        conexion = psycopg2.connect(database="taller2",user="postgres",password="postgres",host="localhost")
  
         # creación del cursor
         cur = conexion.cursor()
@@ -37,9 +37,11 @@ def conectar():
     conexion = None
     try:
         # Lectura de los parámetros de conexion
-        params = config()
+        #params = config()
         # Conexion al servidor ee PostgreSQL
-        conexion = psycopg2.connect(**params)
+        conexion = psycopg2.connect(database="taller2",user="postgres",password="postgres",host="localhost")
         return conexion
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+
+conexionEjemplo()
