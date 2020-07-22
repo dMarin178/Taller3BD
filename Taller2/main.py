@@ -50,30 +50,6 @@ def RegistrarUsuario(datosDeRegistro):
     conn.commit()
     conn.close()
 
-def getAvatar(nick):
-    conn = conectar()
-    cur = conn.cursor()
-    cur.execute("select * from avatar")
-    found = False
-    for avatar in cur :
-        if(avatar[0]==nick):
-            found = True
-            atributes = [avatar[0],avatar[1],avatar[2],avatar[3],avatar[4]]
-            return atributes     
-    if(found==False):
-        print("No se encontro al avatar")
-
-
-def pop_up_msg(mensaje):
-    win = tk.Toplevel()
-    win.wm_title("Window")
-
-    l = tk.Label(win, text=mensaje)
-    l.pack(pady=5)
-
-    b = tk.Button(win, text="Ok", command=win.destroy)
-    b.pack(pady=5)
-
 def generarAvatar(nick):
     listaDatos = []
 

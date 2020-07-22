@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter.messagebox import showinfo
-from main import RegistrarUsuario
+from controller import RegistrarUsuario
 
 def registro():
 

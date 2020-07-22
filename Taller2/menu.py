@@ -48,7 +48,7 @@ def login(nick,password):
     sesion = IniciarSesion(nick,password)
     if(sesion != None):
         if(sesion == "administrador"):
-            print("Este es el menu del admin")
+            menuAdmin(nick)
         else :
             menuJugador(nick)
     else: pop_up_msg(" Nombre o contraseña incorrecto ")
