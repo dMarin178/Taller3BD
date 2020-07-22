@@ -8,6 +8,7 @@ from inputs import inputDatosRegistro
 from inputs import inputNewNick
 from inputs import inputEmail
 import random
+from datetime import date
 
 #devuelve el perfil(admin o jugador) si no lo encuentra devulve None
 def IniciarSesion(nick,password) :
@@ -64,12 +65,13 @@ def generarAvatar(nick):
 
 #Registra al usuario en la base de datos, recibe una lista con los datos a ingresar
 def RegistrarUsuario(datosDeRegistro):
+
     data = datosDeRegistro
     conn = conectar()
     cur = conn.cursor()
     cur.execute("""
-        INSERT into Jugador (nick,nombres,apellidoP,apellidoM,correo,contraseña,pais,cantreportes, ban_s_n)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);""", (data[0],data[1],data[2],data[3],data[4],data[5],data[6],0, False) )
+        INSERT into Jugador (nick,nombres,apellidoP,apellidoM,correo,contraseña,pais,cantreportes, ban_s_n,ultimoLogin,peleasDisponibles)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (data[0],data[1],data[2],data[3],data[4],data[5],data[6],0,False,date.today(),5) )
     cur.close()
     conn.commit()
     conn.close()

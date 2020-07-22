@@ -6,7 +6,9 @@ create table Jugador(nick varchar(30) not null primary key
 					,contraseña varchar(30) not null
 					,pais varchar(30) not null
 					,cantReportes integer
-					,ban_S_N boolean);
+					,ban_S_N boolean
+					,ultimoLogin date not null
+					,peleasDisponibles integer not null);
 
 create table Administrador(nick varchar(30) not null primary key
 					,nombres varchar(30) not null
@@ -29,10 +31,10 @@ values
 ('dinoco','Dino Bastian','Marin','Diaz','dinomarindiaz178@gmail.com','dino123','Chile'),
 ('dio','Dio','Brando','Muñoz','hell@gmail.com','123','Peru');
 
-insert into Jugador(nick,nombres,apellidoP,apellidoM,correo,contraseña,pais)
+insert into Jugador(nick,nombres,apellidoP,apellidoM,correo,contraseña,pais,cantReportes,ban_S_N,ultimoLogin,peleasDisponibles)
 values
-('JoJo','Joseph','Joestar','Muñoz','jojo@gmail.com','123','Bolivia'),	
-('zizu','Zinedine','Zidane','Rios','zizu@gmail.com','123','Francia');
+('JoJo','Joseph','Joestar','Muñoz','jojo@gmail.com','123','Bolivia',0,False,'2020-07-21'),	
+('zizu','Zinedine','Zidane','Rios','zizu@gmail.com','123','Francia',0,False,'2020-07-21');
 
 insert into Avatar(nick,ataque,velocidad,vida,ptosExp)
 values
