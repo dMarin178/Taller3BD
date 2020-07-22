@@ -33,8 +33,8 @@ values
 
 insert into Jugador(nick,nombres,apellidoP,apellidoM,correo,contraseña,pais,cantReportes,ban_S_N,ultimoLogin,peleasDisponibles)
 values
-('JoJo','Joseph','Joestar','Muñoz','jojo@gmail.com','123','Bolivia',0,False,'2020-07-21'),	
-('zizu','Zinedine','Zidane','Rios','zizu@gmail.com','123','Francia',0,False,'2020-07-21');
+('JoJo','Joseph','Joestar','Muñoz','jojo@gmail.com','123','Bolivia',0,False,'2020-07-21',5),	
+('zizu','Zinedine','Zidane','Rios','zizu@gmail.com','123','Francia',0,False,'2020-07-21',5);
 
 insert into Avatar(nick,ataque,velocidad,vida,ptosExp)
 values

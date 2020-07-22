@@ -2,15 +2,16 @@ import tkinter as tk
 from tkinter.messagebox import showinfo
 from functools import partial
 import tkinter.font as tkFont
-<<<<<<< HEAD
 from controller import getAvatar
-=======
-from Jugador import getAvatar
-from Jugador import report
-from conexion import conectar
-from main import pop_up_msg
+from controller import report
+from controller import getReportados
+from controller import getOponente
+from controller import banPlayer
+from funciones import pop_up_msg
+from funciones import getNivel
+from funciones import nextLvl
+
 import random
->>>>>>> c2ec6cf655c296ebbe9da817d0c439158a6db595
 
 def menuJugador(nick):
     sesionJugador = tk.Tk()
@@ -50,7 +51,31 @@ def menuJugador(nick):
 
     sesionJugador.mainloop()
 
+def reportPlayer():
+    reportWindow = tk.Tk()
+    reportWindow.title("Reportar Jugador")
+    reportWindow.geometry("280x200")
+    reportWindow.configure(background = 'black')
 
+    reportText = tk.Label(reportWindow,text = 'Ingrese el nick del jugador que desea reportar ',bg='black', fg='white')
+    reportText.pack(pady=10)
+
+    reportEntry = tk.Entry(reportWindow)
+    reportEntry.pack(pady=5)
+
+    def reportSinParametros():
+        reportNick = reportEntry.get()
+        if report(reportNick) == False:
+            pop_up_msg("No se encontro al jugador. ")
+        else: pop_up_msg("Jugador reportado ")
+
+    reportButton = tk.Button(reportWindow, text='Reportar', command=reportSinParametros)
+    reportButton.pack(pady=10)
+
+    backButton = tk.Button(reportWindow,text="Volver", command=reportWindow.destroy)
+    backButton.pack(pady=10)
+    
+    reportWindow.mainloop()
 
 def menuAdmin(nick):
     sesionAdmin = tk.Tk()
@@ -59,70 +84,47 @@ def menuAdmin(nick):
     #titulo del menu
     sesionAdmin.configure(background = 'black')
 
-    avatar= getAvatar(nick)
-
     titulo = tk.Label(sesionAdmin, text = "Bienvenido "+nick ,bg='black',fg='white', font= tkFont.Font(size=20))
     titulo.pack(pady=20)
 
-    ptsAtck = tk.Label(sesionAdmin ,text="Lista de jugadores : ",bg='black',fg='white')
-    ptsAtck.pack(pady=5)
+    labelReportPlayers = tk.Label(sesionAdmin ,text="Lista de jugadores : ",bg='black',fg='white')
+    labelReportPlayers.pack(pady=5)
 
-    ptsDef = tk.Label(sesionAdmin,text="Puntos de vida : "+str(avatar[2]),bg='black',fg='white')
-    ptsDef.pack(pady=5)
+    reportados = getReportados()
+    for jugador in reportados:
+        if(jugador[1] != 0):
+            labelJugador = tk.Label(sesionAdmin,text= jugador[0]+" - Cantidad de reportes : "+str(jugador[1]), bg='black' ,fg='white')
+            labelJugador.pack(pady=5)
 
-    ptosVel = tk.Label(sesionAdmin,text="Puntos de velocidad : "+str(avatar[3]),bg='black',fg='white')
-    ptosVel.pack(pady=5)
-
-    lvl = tk.Label(sesionAdmin,text="nivel : "+ str(getNivel(avatar[3])),bg='black',fg='white')
-    lvl.pack(pady=5)
-
-    ptosExp=tk.Label(sesionAdmin,text="experiencia : "+str(avatar[3])+"/"+str(nextLvl(getNivel(avatar[3]))) ,bg='black',fg='white')
-    ptosExp.pack(pady=5)
-
-    reportarJugador = tk.Button(sesionAdmin ,text="Reportar jugador",command=reportPlayer)
+    reportarJugador = tk.Button(sesionAdmin ,text="Bannear un jugador ",command=banWindow)
     reportarJugador.pack(pady=10)
 
-    luchar= tk.Button(sesionAdmin,text="Luchar")
-    luchar.pack(pady=10)
-
-    cerrarSesion= tk.Button(sesionAdmin,text="Cerrar sesion",command=sesionJugador.destroy)
+    cerrarSesion= tk.Button(sesionAdmin,text="Cerrar sesion",command=sesionAdmin.destroy)
     cerrarSesion.pack(pady=10)
-
-<<<<<<< HEAD
     sesionAdmin.mainloop()
-=======
-def getOponente(nick):
-    print(nick + " está buscando oponente\n")
-    #obtener todos los oponentes validos
-    nivelPropio = getNivel(getAvatar(nick)[4])
-    listaAvatares = []
 
-    conn = conectar()
-    cur = conn.cursor()
-    #excluir al propio
-    cur.execute("SELECT * FROM avatar WHERE nick != %s",(nick,))
+def banWindow():
+    banWindow = tk.Tk()
+    banWindow.title("Ban Window")
+    banWindow.geometry("200x150")
+    banWindow.configure(background = "black")
+
+    titulo = tk.Label(banWindow,text="Nick del jugador que quiere banear",bg='black',fg='white')
+    titulo.pack(pady=5)
+
+    jugadorEntry = tk.Entry(banWindow)
+    jugadorEntry.pack(pady=5)
+
+    def executeBan():
+        if(banPlayer(jugadorEntry.get())):
+            pop_up_msg(jugadorEntry.get()+" a sido baneado")
+        else:pop_up_msg("Nick ingresado no existe")
+
+    banButton = tk.Button(banWindow,text="Banear jugador", command=executeBan)
+    banButton.pack(pady=5)
+    exitButton = tk.Button(banWindow,text="Salir", command=banWindow.destroy)
+    exitButton.pack(pady=10)
+
     
-    for avatar in cur :
-        #excluir los que estan fuera del rango de nivel
-        if(avatar[4] <= nivelPropio+1 or avatar[4] >= nivelPropio-1):
-            listaAvatares.append([avatar[0],avatar[1],avatar[2],avatar[3]])
-    cur.close()
-    conn.close()
+        
 
-    #elegir uno al azar
-    print(listaAvatares[random.randint(0,len(listaAvatares)-1)])
->>>>>>> c2ec6cf655c296ebbe9da817d0c439158a6db595
-
-
-    #devuelve el nivel que se encuentra el jugador
-def getNivel(ptosExperiencia):
-    if(ptosExperiencia < 150):
-        return 1
-    else:
-        nivel = abs((ptosExperiencia-100)//50)
-        return nivel
-
-#devuelve los puntos de experiencia necesarios para subir de nivel
-def nextLvl(nivel):
-    ptos=nivel*50+100
-    return ptos

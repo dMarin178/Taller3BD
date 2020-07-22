@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter.messagebox import showinfo
 from controller import RegistrarUsuario
+from controller import generarAvatar
 
 def registro():
 
     ventanaRegistro = tk.Tk()
     ventanaRegistro.title("Registro de cuenta nueva ")
-    ventanaRegistro.geometry("400x400")
+    ventanaRegistro.geometry("400x500")
     ventanaRegistro.configure(background = 'black')
 
     nickLabel = tk.Label(ventanaRegistro, text="Ingrese su Nick",bg='black',fg='white')
@@ -19,12 +20,12 @@ def registro():
     emailEntry = tk.Entry(ventanaRegistro)
     emailEntry.pack()
 
-    passLabel = tk.Label(ventanaRegistro, text="Ingrese su Contrase�a",bg='black',fg='white')
+    passLabel = tk.Label(ventanaRegistro, text="Ingrese su Contraseña",bg='black',fg='white')
     passLabel.pack()
     passEntry = tk.Entry(ventanaRegistro,show ="*")
     passEntry.pack()
 
-    pass2Label = tk.Label(ventanaRegistro, text="Ingrese su Contrase�a otra vez",bg='black',fg='white')
+    pass2Label = tk.Label(ventanaRegistro, text="Ingrese su Contraseña otra vez",bg='black',fg='white')
     pass2Label.pack()
     pass2Entry = tk.Entry(ventanaRegistro,show ="*")
     pass2Entry.pack()
@@ -77,11 +78,16 @@ def registro():
             listaDatos.append(paisEntry.get())
             
             RegistrarUsuario(listaDatos)
+            generarAvatar(nickEntry.get())
+            pop_up_msg("Usuario registrado, Bienvenido "+nickEntry.get())
         else:
             pop_up_msg("Las contraseñas deben coincidir")
 
     botonConfirmar = tk.Button(ventanaRegistro, text = "Cofirmar registro", command=confirmar)
-    botonConfirmar.pack()
+    botonConfirmar.pack(pady=5)
+
+    botonSalir = tk.Button(ventanaRegistro,text="Salir", command=ventanaRegistro.destroy)
+    botonSalir.pack(pady=10)
 
     ventanaRegistro.mainloop()
 
