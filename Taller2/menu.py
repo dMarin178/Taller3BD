@@ -3,13 +3,10 @@ from main import IniciarSesion
 from tkinter.messagebox import showinfo
 from functools import partial
 from sesion import menuJugador
-<<<<<<< HEAD
 from main import pop_up_msg
-=======
 from registro import registro
-
 from tkinter import *
->>>>>>> 8cf7f615e0989110b41568f212d0315c1f89a615
+from sesion import getReportados
 
 def menu():
     window = tk.Tk()
@@ -41,16 +38,10 @@ def menu():
 
     window.mainloop()
 
-<<<<<<< HEAD
-=======
-def menuAdmin():
-    print("este es el menu del administrador")
-
 def iniciarRegistro():
         print("iniciando registro")
         registro()
 
->>>>>>> 8cf7f615e0989110b41568f212d0315c1f89a615
 def login(nick,password):
     print(nick)
     print(password)
@@ -63,9 +54,7 @@ def login(nick,password):
     else: pop_up_msg(" Nombre o contraseña incorrecto ")
     return 0
 
-
-menu()
-
+ getReportados()
 
 
 

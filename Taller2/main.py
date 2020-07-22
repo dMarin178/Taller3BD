@@ -7,6 +7,8 @@ from conexion import conectar
 from inputs import inputDatosRegistro
 from inputs import inputNewNick
 from inputs import inputEmail
+import random 
+
 
 #devuelve el perfil(admin o jugador) si no lo encuentra devulve None
 def IniciarSesion(nick,password) :
@@ -61,30 +63,6 @@ def getAvatar(nick):
     if(found==False):
         print("No se encontro al avatar")
 
-def principal() :
-    opcion = -1
-    while opcion != "0" :
-        print("Ingrese una opcion : ")
-        opcion = input()
-        if opcion == "1" : 
-            print("Ingrese su nick :")
-            nick = input()
-            print("Ingrese su contraseña : ")
-            password = input()
-            perfil = IniciarSesion(nick,password)
-            if perfil == None :
-                print("Nick o contraseña incorrectos \n")
-            elif perfil == "administrador" :
-                print("Este es el menu del admin")
-            else : 
-                print("Este es el menu del jugador")  
-        elif opcion == "2" :
-            data = inputDatosRegistro()
-            RegistrarUsuario(data)
-        elif opcion == "0" :
-            print("Adios , nos vemos pronto para mas lucha ")
-        else :
-            print("Ingrese una opcion valida")
 
 def pop_up_msg(mensaje):
     win = tk.Toplevel()
@@ -95,3 +73,27 @@ def pop_up_msg(mensaje):
 
     b = tk.Button(win, text="Ok", command=win.destroy)
     b.pack(pady=5)
+
+def generarAvatar(nick):
+    listaDatos = []
+
+    ataque = random.randint(1,3)
+    vida = random.randint(10,20)
+    velocidad = random.randint(1,10)
+
+    listaDatos.append(nick)
+    listaDatos.append(ataque)
+    listaDatos.append(velocidad)
+    listaDatos.append(vida)
+    listaDatos.append(0)
+
+    conn = conectar()
+    cur =conn.cursor()
+    cur.execute("""
+        INSERT INTO avatar (nick, ataque, velocidad, vida,ptosexp)
+        VALUES (%s,%s,%s,%s,%s);""",(listaDatos[0],listaDatos[1],listaDatos[2],listaDatos[3],listaDatos[4]) )
+    cur.close()
+    conn.commit()
+    conn.close()
+
+   
