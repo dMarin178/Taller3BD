@@ -61,7 +61,7 @@ def generarAvatar(nick):
     conn.commit()
     conn.close()
 
-    print("creado el avatar" + nick + "\n")
+    print("creado el avatar " + nick + "\n")
 
 #Registra al usuario en la base de datos, recibe una lista con los datos a ingresar
 def RegistrarUsuario(datosDeRegistro):

@@ -4,7 +4,9 @@ from functools import partial
 import tkinter.font as tkFont
 from Jugador import getAvatar
 from Jugador import report
+from conexion import conectar
 from main import pop_up_msg
+import random
 
 def menuJugador(nick):
     sesionJugador = tk.Tk()
@@ -30,13 +32,13 @@ def menuJugador(nick):
     lvl = tk.Label(sesionJugador,text="nivel : "+ str(getNivel(avatar[3])),bg='black',fg='white')
     lvl.pack(pady=5)
 
-    ptosExp=tk.Label(sesionJugador,text="experiencia : "+str(avatar[3])+"/"+str(nextLvl(getNivel(avatar[3]))) ,bg='black',fg='white')
+    ptosExp=tk.Label(sesionJugador,text="experiencia : "+str(avatar[4])+"/"+str(nextLvl(getNivel(avatar[3]))) ,bg='black',fg='white')
     ptosExp.pack(pady=5)
 
     reportarJugador = tk.Button(sesionJugador ,text="Reportar jugador",command=reportPlayer)
     reportarJugador.pack(pady=10)
 
-    luchar= tk.Button(sesionJugador,text="Luchar")
+    luchar= tk.Button(sesionJugador,text="Luchar",command=lambda: getOponente(nick))
     luchar.pack(pady=10)
 
     cerrarSesion= tk.Button(sesionJugador,text="Cerrar sesion",command=sesionJugador.destroy)
@@ -70,6 +72,26 @@ def reportPlayer():
     
     reportWindow.mainloop()
 
+def getOponente(nick):
+    print(nick + " está buscando oponente\n")
+    #obtener todos los oponentes validos
+    nivelPropio = getNivel(getAvatar(nick)[4])
+    listaAvatares = []
+
+    conn = conectar()
+    cur = conn.cursor()
+    #excluir al propio
+    cur.execute("SELECT * FROM avatar WHERE nick != %s",(nick,))
+    
+    for avatar in cur :
+        #excluir los que estan fuera del rango de nivel
+        if(avatar[4] <= nivelPropio+1 or avatar[4] >= nivelPropio-1):
+            listaAvatares.append([avatar[0],avatar[1],avatar[2],avatar[3]])
+    cur.close()
+    conn.close()
+
+    #elegir uno al azar
+    print(listaAvatares[random.randint(0,len(listaAvatares)-1)])
 
 #devuelve el nivel que se encuentra el jugador
 def getNivel(ptosExperiencia):

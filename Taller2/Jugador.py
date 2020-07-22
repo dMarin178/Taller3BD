@@ -21,9 +21,13 @@ def getAvatar(nick):
         if(avatar[0]==nick):
             found = True
             atributes = [avatar[0],avatar[1],avatar[2],avatar[3],avatar[4]]
+            cur.close()
+            conn.close()
             return atributes     
     if(found==False):
         print("No se encontro al avatar")
+        cur.close()
+        conn.close()
 
 #aumenta la cantidad de reportes de un jugador y devuelve True, si no lo encuentra devuelve False
 def report(nick):
